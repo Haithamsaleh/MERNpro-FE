@@ -24,6 +24,17 @@ import {
   Button,
   option,
   Select,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverAnchor,
+  Portal,
+  Popover,
+
 } from "@chakra-ui/react";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -143,6 +154,27 @@ const Arthers = () => {
       });
     }
   };
+  const updateArthername = async (id) => {
+    await axios.put(
+      `${BASE_URL}/Arthers/updatename/${id}`,
+      {
+        name: name,
+      },
+    );
+    getarthers();
+
+  };
+  const updateArtherage = async (id) => {
+    await axios.put(
+      `${BASE_URL}/Arthers/updateArtherAge/${id}`,
+      {
+        age: age,
+      },
+    );
+    getarthers();
+
+  };
+
   const deleteArther = async (id) => {
     const res = await axios.delete(`${BASE_URL}/Arthers/delete/${id}`, {
     });
@@ -199,6 +231,59 @@ onClick={() => {
 🗑
 
 </Button>
+<Popover size='true'>
+  <PopoverTrigger>
+    <Button ml='40%' bg='gray.800'   >✏</Button>
+  </PopoverTrigger>
+  <Portal>
+    <PopoverContent>
+      <PopoverArrow />
+      <PopoverHeader>Edit Arther </PopoverHeader>
+      <PopoverCloseButton />
+      <PopoverBody>
+                      
+      <Input
+                id="btubdat"
+                onChange={(e) => {
+                  updateArthername(e.target.value);
+                }}
+                defaultValue={item.name}
+                placeholder="edit title"
+              />
+
+              <Button
+              colorScheme={'green'}
+                className="edit"
+                onClick={() =>  setName(item._id)}
+                
+              >
+                Edit Arther Name
+              </Button>
+              <Input
+mb={5}
+mt={5}
+                id="btubdat"
+                onChange={(e) => {setAge(e.target.value);}}
+                defaultValue={item.age}
+                type="number"
+                placeholder="edit arther age "
+              />
+
+              <Button colorScheme={'green'} className="edit"
+                             onClick={(item) => updateArtherage(item._id)}
+
+              > 
+              
+                Edit book price
+              </Button>
+       
+      </PopoverBody>
+      <PopoverFooter></PopoverFooter>
+    </PopoverContent>
+  </Portal>
+</Popover>
+
+
               </div>
             </div>
           );

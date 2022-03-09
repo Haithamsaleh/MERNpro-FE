@@ -22,6 +22,17 @@ import {
   Grid,
   Stack,
   Button,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverAnchor,
+  Portal,
+  Popover,
+
 } from "@chakra-ui/react";
 
 
@@ -143,6 +154,39 @@ const Books = () => {
       });
     }
   };
+  const updateBooktitle = async (id) => {
+    await axios.put(
+      `${BASE_URL}/book/updatetitle/${id}`,
+      {
+        title: title,
+      },
+    );
+    getbooks();
+
+  };
+
+  const updateBookpages = async (id) => {
+    await axios.put(
+      `${BASE_URL}/book/updateBookpages/${id}`,
+      {
+        pages: pages,
+      },
+    );
+    getbooks();
+
+  };
+  const updateBookprice = async (id) => {
+    await axios.put(
+      `${BASE_URL}/book/updateBookpages/${id}`,
+      {
+        price: price,
+      },
+    );
+    getbooks();
+
+  };
+
+
   const deleteBook = async (id) => {
     const res = await axios.delete(`${BASE_URL}/book/delete/${id}`, {
     });
@@ -194,6 +238,74 @@ deleteBook(item._id);
 🗑
 
 </Button>
+<Popover size='true'>
+  <PopoverTrigger>
+    <Button ml='40%' bg='gray.800'   >✏</Button>
+  </PopoverTrigger>
+  <Portal>
+    <PopoverContent>
+      <PopoverArrow />
+      <PopoverHeader>Edit Book </PopoverHeader>
+      <PopoverCloseButton />
+      <PopoverBody>
+                      
+      <Input
+                id="btubdat"
+                onChange={(e) => {
+                  updateBooktitle(e.target.value);
+                }}
+                defaultValue={item.title}
+                placeholder="edit title"
+              />
+
+              <Button
+              colorScheme={'green'}
+                className="edit"
+                onClick={() =>  setTitle(item._id)}
+                
+              >
+                Edit Book Title
+              </Button>
+              <Input
+mb={5}
+mt={5}
+                id="btubdat"
+                onChange={(e) => {setPages(e.target.value);}}
+                defaultValue={item.pages}
+                type="number"
+                placeholder="edit book pages"
+              />
+
+              <Button colorScheme={'green'} className="edit"
+                             onClick={(item) => updateBookpages(item._id)}
+
+              > 
+              
+                Edit book price
+              </Button>
+<Input
+mb={5}
+mt={5}
+                id="btubdat"
+                onChange={(e) => {setPrice(e.target.value);}}
+                defaultValue={item.price}
+                type="number"
+                placeholder="edit book Price"
+              />
+
+              <Button colorScheme={'green'} className="edit"
+                             onClick={(e) => updateBookprice(e._id)}
+
+              > 
+              
+                Edit book price
+              </Button>
+       
+      </PopoverBody>
+      <PopoverFooter></PopoverFooter>
+    </PopoverContent>
+  </Portal>
+</Popover>
 
                 
               </div>
